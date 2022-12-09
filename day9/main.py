@@ -6,7 +6,7 @@ def move( x, m ):
 def move_k( dK, m ):
     dK = move( dK, m )
     m = [0, 0] #par defaut on ne bouge pas
-    if abs( dK[0] ) == 2:  #si ecart > 2 on corrige l'écart ce qui provoque un mouvement
+    if abs( dK[0] ) == 2:  #si ecart >= 2 on corrige l'écart ce qui provoque un mouvement
         if abs( dK[1] ) == 2:
             m= dK[0]//2, dK[1]//2
         else:
