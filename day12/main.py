@@ -26,17 +26,12 @@ def solve( file, p = 1 ):
                     g[i,j].append( (i2,j2) )
 
     ds=dict( (i, 0 ) for i in l )
-    while len( l )>0:
-        l2=set()
-        for i in l:
-            for j in g[i]:
-                ds.setdefault( j, h*w )
-                if ds[j] > ds[i] + 1:
-                    ds[j] = ds[i] + 1
-                    l2.add( j )
-        l=l2
+    n=1
+    while len( l ) > 0:
+        l=set( j for i in l for j in g[i] if j not in ds )
+        ds.update( dict( (j, n) for j in l ) )
+        n+=1
     print( ds[e] )
-
 
 solve( "input_ex", 1 )
 solve( "input", 1  )
