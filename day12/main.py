@@ -7,9 +7,11 @@ def solve( file, p = 1 ):
             if c == "S":
                 l.add( (i, j) )
                 c="a"
-            if c == "E":
+            elif c == "E":
                 e = i, j
                 c="z"
+            elif c == "a" and p == 2:
+                l.add( (i, j) )
             d[-1].append( ord( c ) - ord( 'a' ) )
     h=len( d )
     w=len( d[0] )
@@ -17,9 +19,6 @@ def solve( file, p = 1 ):
     
     for i in range( h ):
         for j in range( w ):
-            #on ajoute les bords de niveau 0 pour la partie 2
-            if ( p==2) and ( i in (0, h-1) or j in (0,w-1) ) and d[i][j] == 0:
-                l.add( (i, j) )
             g[i,j] = []
             for di, dj in (-1,0), (1,0), (0,-1), (0,1):
                 i2, j2 = i+di, j+dj
