@@ -15,28 +15,33 @@ def solve( file ):
     g={}
     for i in range( h ):
         for j in range( w ):
-            g[i,j]={(i,j):0}
+            g[i,j] = []
             for di, dj in (-1,0), (1,0), (0,-1), (0,1):
                 i2, j2 = i+di, j+dj
                 if 0<= i2 < h and 0<= j2 < w and d[i][j] + 1 >= d[i2][j2]:
-                    g[i,j][i2,j2]=1
+                    g[i,j].append( (i2,j2) )
+
+    ds=dict( )
+    for i in range( h ):
+        for j in range( w ):
+            if (i, j) == s:
+                ds[i,j] = 0
+            elif (i, j) in g[s]:
+                ds[i,j] = 1
+            else:
+                ds[i,j] = h*w
 
     updated=True
-    i=0
     while updated:
-        new=[]
-        for n, l in g.items():
-            for n2, w in l.items():
-                for n3, w2 in g[n2].items():
-                    if w+w2 < l.get( n3, h*w ):
-                        new.append( ( n, n3, w+w2 ) )
-        for n, n3, w in new:
-            g[n][n3]=w
-        updated = len( new ) > 0
-        i+=1
-        print( i, len( new ) )
+        updated=False
+        for i in ds:
+            for j in g[i]:
+                if ds[j] > ds[i] + 1:
+                    ds[j] = ds[i] + 1
+                    updated=True
     
-    print( g[s][e] )
+    print( ds[e] )
+
 
 solve( "input_ex" )
 solve( "input"  )
