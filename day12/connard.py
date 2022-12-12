@@ -6,11 +6,11 @@ def solve( file, s = "S" ):
     e=d.index( "E" )
     d = [ ord( c ) - ord( 'a' ) for c in d.replace( "S", "a" ).replace( "E", "z" ) ]
 
-    for n in range( len( d ) ):
+    def rec( n, l ):
         if e in l:
-            print( n )
-            return
-        l |= set( i+x for i in l for x in ( -1, 1, -w, w ) if i+x not in l and 0 <= i+x < len( d ) and ( i%w, x ) not in ( ( 0, -1 ), (w-1, 1 ) ) and d[i]+1 >= d[i+x] )
+            return n
+        return rec( n+1, l | set( i+x for i in l for x in ( -1, 1, -w, w ) if i+x not in l and 0 <= i+x < len( d ) and ( i%w, x ) not in ( ( 0, -1 ), (w-1, 1 ) ) and d[i]+1 >= d[i+x] ) )
+    print( rec( 0, l ) )
 
 solve( "input_ex", "S" )
 solve( "input", "S" )
