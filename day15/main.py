@@ -16,11 +16,11 @@ solve1( "input_ex", 10 )
 solve1( "input", 2000000 )
 
 def solve2( file, cmax ):
-    s=set()
+    s=[]
     for line in open( file ):
         sx, sy, bx, by = map( int, re.match( "Sensor at x=(.+), y=(.+): closest beacon is at x=(.+), y=(.+)$", line ).groups() )
         d = abs( sx - bx ) + abs( sy - by )
-        s.add( ( sx, sy, d ) )
+        s.append( ( sx, sy, d ) )
 
     def covered( x, y ):
         if x < 0 or x > cmax or y < 0 or y > cmax:
@@ -28,8 +28,20 @@ def solve2( file, cmax ):
         for x2, y2, d in s:
             if abs( x - x2 ) + abs( y - y2 ) <= d:
                 return True
-
-    for i, (x, y, d) in enumerate( s ):
+    
+    l=set()
+    for i, ( x1, y1, d1 ) in enumerate( s[:-1] ):
+        for j, ( x2, y2, d2 ) in enumerate( s[i+1:] ):
+            if abs( x1 - x2 ) + abs( y1 - y2 ) == d1+d2+2:
+                print( i, i+1+j )
+                l.add( i )
+                l.add( i+1+j )
+    #juste 2 couples pour l'input, il doit y avoir moyen de calculer l'intersection en instant ><
+ 
+    for j in l:
+        x, y, d = s[j]
+        print( j, x, y, d )
+        continue
         for i in range( -d, d+1 ):
             for x2, y2 in ( x+i, y+( d+1 - i ) ), ( x+( d+1 - i ), y+i ):
                 if not covered( x2, y2 ):
