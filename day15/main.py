@@ -22,6 +22,8 @@ def solve2( file, cmax ):
         d = abs( sx - bx ) + abs( sy - by )
         s.append( ( sx, sy, d ) )
 
+    s=sorted( s, key=lambda x: x[2] )
+
     def covered( x, y ):
         if x < 0 or x > cmax or y < 0 or y > cmax:
             return True
@@ -33,15 +35,11 @@ def solve2( file, cmax ):
     for i, ( x1, y1, d1 ) in enumerate( s[:-1] ):
         for j, ( x2, y2, d2 ) in enumerate( s[i+1:] ):
             if abs( x1 - x2 ) + abs( y1 - y2 ) == d1+d2+2:
-                print( i, i+1+j )
                 l.add( i )
                 l.add( i+1+j )
-    #juste 2 couples pour l'input, il doit y avoir moyen de calculer l'intersection en instant ><
  
     for j in l:
         x, y, d = s[j]
-        print( j, x, y, d )
-        continue
         for i in range( -d, d+1 ):
             for x2, y2 in ( x+i, y+( d+1 - i ) ), ( x+( d+1 - i ), y+i ):
                 if not covered( x2, y2 ):
